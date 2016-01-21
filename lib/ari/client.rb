@@ -41,8 +41,8 @@ module Ari
       end
     end
 
-    def connect_websocket
-      params = { api_key: @options[:api_key], app: @options[:app] }
+    def connect_websocket(params = {})
+      params = { api_key: @options[:api_key], app: @options[:app] }.merge(params)
       query_string = URI.encode_www_form params
       ws_url = "#{@uri}/events?#{query_string}"
       if @ws
