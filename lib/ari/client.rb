@@ -85,6 +85,7 @@ module Ari
       end
 
       Thread.new { self.emit event_name, handler_klass.new(object.merge(client: self)) }
+      Thread.new { self.emit :websocket_message, handler_klass.new(object.merge(client: self)) }
     rescue => err
       emit :websocket_error, err
     end
