@@ -35,6 +35,9 @@ module Ari
         params.merge!({ api_key: @options[:api_key], app: @options[:app] })
         query_string = URI.encode_www_form params
         request_path = "#{@uri.path}#{path}?#{query_string}"
+        if @options[:debug]
+          puts "\e[37;44m #{http_method.upcase} \e[0;34m #{request_path}\e[0m"
+        end
         request = method_klass.new request_path, HTTP_HEADERS
         request.body = request_body.is_a?(Hash) ? MultiJson.dump(request_body) : request_body
         send_request request
@@ -69,6 +72,9 @@ module Ari
       object = MultiJson.load event.data
 
       handler_klass = Ari.const_get object['type'] rescue nil
+      if @options[:debug]
+        puts "\e[35m#{event.data}\e[0m"
+      end
       return unless handler_klass
       event_name = object['type'].gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
 
