@@ -90,8 +90,8 @@ module Ari
         end
       end
 
-      Thread.new { self.emit event_name, handler) }
-      Thread.new { self.emit :websocket_message, handler) }
+      Thread.new { self.emit event_name, handler }
+      Thread.new { self.emit :websocket_message, handler }
     rescue => err
       emit :websocket_error, err
     end
