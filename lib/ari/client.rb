@@ -86,13 +86,15 @@ module Ari
       event_model_ids = event_properties.map { |p| handler.send(p).id rescue nil }.compact
       [*instances].each do |instance|
         if event_model_ids.include? instance.id
-          Thread.new { emit "#{event_name}-#{instance.id}", handler }
+          emit "#{event_name}-#{instance.id}", handler
         end
       end
 
-      Thread.new { self.emit event_name, handler }
-      Thread.new { self.emit :websocket_message, handler }
+      self.emit event_name, handler
+      self.emit :websocket_message, handler
     rescue => err
+      puts err.inspect
+      puts err.backtrace
       emit :websocket_error, err
     end
 
