@@ -135,7 +135,7 @@ module Ari
 
     # POST /recordings/live/%{recordingName}/stop
     #
-    # 
+    #
     #
     #
     # Parameters:
@@ -144,7 +144,8 @@ module Ari
     #
     def self.stop(options = {})
       raise ArgumentError.new("Parameter recordingName must be passed in options hash.") unless options[:recordingName]
-      path = '/recordings/live/%{recordingName}/stop' % options
+      rname = URI.encode_www_form_component(options[:recordingName])
+      path = "/recordings/live/#{rname}/stop"
       response = client(options).post(path, options)
     end
 
@@ -154,7 +155,7 @@ module Ari
 
     # POST /recordings/live/%{recordingName}/pause
     #
-    # 
+    #
     #
     #
     # Parameters:
@@ -173,7 +174,7 @@ module Ari
 
     # DELETE /recordings/live/%{recordingName}/pause
     #
-    # 
+    #
     #
     #
     # Parameters:
@@ -194,7 +195,7 @@ module Ari
 
     # POST /recordings/live/%{recordingName}/mute
     #
-    # 
+    #
     #
     #
     # Parameters:
@@ -213,7 +214,7 @@ module Ari
 
     # DELETE /recordings/live/%{recordingName}/mute
     #
-    # 
+    #
     #
     #
     # Parameters:
